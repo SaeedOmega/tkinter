@@ -20,6 +20,8 @@ class Task:
             self.created_date = self._normalize_date(self.created_date)
         if self.due_date:
             self.due_date = self._normalize_date(self.due_date)
+        else:
+            self.due_date = self._normalize_date(date.today().isoformat())
 
     @staticmethod
     def _normalize_date(d: str) -> str:
@@ -85,3 +87,5 @@ class ToDoList:
     def toggle_done(self, index: int) -> None:
         if 0 <= index < len(self._tasks):
             self._tasks[index].is_done = not self._tasks[index].is_done
+            if not self._tasks[index].due_date:
+                self._tasks[index].due_date = date.today().isoformat()

@@ -1,6 +1,5 @@
 import customtkinter as ctk
 from tkinter import messagebox
-from datetime import date
 from typing import Optional
 from utils import fix_text
 from utils import set_global_font
@@ -29,7 +28,7 @@ ctk.set_default_color_theme("blue")
 class AddTaskWindow(ctk.CTkToplevel):
     def __init__(self, master, on_add):
         super().__init__(master)
-        self.title(fix_text("افزودن تسک جدید"))
+        self.title("افزودن تسک جدید")
         self.geometry("420x260")
         self.on_add = on_add
         self.resizable(False, False)
@@ -62,6 +61,7 @@ class AddTaskWindow(ctk.CTkToplevel):
             messagebox.showwarning(fix_text("خطا"), fix_text("عنوان نباید خالی باشد."))
             return
         try:
+            print(due)
             task = Task(title=fix_text(title), priority=priority, due_date=due)
         except Exception:
             messagebox.showerror(fix_text("تاریخ نامعتبر", "لطفاً تاریخ را به صورت YYYY-MM-DD وارد کنید."))
@@ -72,7 +72,7 @@ class AddTaskWindow(ctk.CTkToplevel):
 class FilterWindow(ctk.CTkToplevel):
     def __init__(self, master, on_filter):
         super().__init__(master)
-        self.title(fix_text("جستجو/فیلتر"))
+        self.title("جستجو/فیلتر")
         self.geometry("420x240")
         self.on_filter = on_filter
         self.grid_columnconfigure(1, weight=1)
@@ -86,7 +86,7 @@ class FilterWindow(ctk.CTkToplevel):
         self.from_entry = ctk.CTkEntry(self, placeholder_text=fix_text(""))
         self.from_entry.grid(row=1, column=0, padx=10, pady=10, sticky="ew")
 
-        ctk.CTkLabel(self, text=("تا تاریخ (YYYY-MM-DD):")).grid(row=2, column=1, padx=10, pady=10, sticky="e")
+        ctk.CTkLabel(self, text=(fix_text("تا تاریخ (YYYY-MM-DD):"))).grid(row=2, column=1, padx=10, pady=10, sticky="e")
         self.to_entry = ctk.CTkEntry(self, placeholder_text=fix_text(""))
         self.to_entry.grid(row=2, column=0, padx=10, pady=10, sticky="ew")
 
@@ -103,7 +103,7 @@ class FilterWindow(ctk.CTkToplevel):
 class ReportWindow(ctk.CTkToplevel):
     def __init__(self, master, on_export):
         super().__init__(master)
-        self.title(fix_text("گزارش روزانه"))
+        self.title("گزارش روزانه")
         self.geometry("420x200")
         self.on_export = on_export
         self.grid_columnconfigure(1, weight=1)
@@ -148,7 +148,7 @@ class App(ctk.CTk):
         top.grid(row=0, column=0, sticky="ew", padx=12, pady=(12, 6))
         top.grid_columnconfigure(3, weight=1)
 
-        self.clock_label = ctk.CTkLabel(top, text="--:--:--")
+        self.clock_label = ctk.CTkLabel(top, text="--:--:--",width=75)
         self.clock_label.grid(row=0, column=0, padx=8, pady=8)
 
         self.today_btn = ctk.CTkButton(top, text=fix_text("کارهای امروز"), command=self.show_today)
@@ -230,7 +230,7 @@ class App(ctk.CTk):
     def remove_selected(self):
         idx = self.selected_index()
         if idx is None:
-            messagebox.showinfo(fix_text("حذف"), fix_text("ابتدا یک تسک را انتخاب کنید (روی خطش کلیک کنید)."))
+            messagebox.showinfo("حذف", fix_text("ابتدا یک تسک را انتخاب کنید (روی خطش کلیک کنید)."))
             return
         title = self.todo.list_tasks()[idx].title
         if self.todo.remove_task(title):
@@ -245,12 +245,12 @@ class App(ctk.CTk):
 
     def save_data(self):
         self.todo.save_to_file(DATA_FILE)
-        messagebox.showinfo(fix_text("ذخیره شد"), fix_text(f"تسک‌ها در فایل {DATA_FILE} ذخیره شدند."))
+        messagebox.showinfo("ذخیره شد", fix_text(f"تسک‌ها در فایل {DATA_FILE} ذخیره شدند."))
 
     def load_data(self):
         self.todo.load_from_file(DATA_FILE)
         self.refresh_view()
-        messagebox.showinfo(fix_text("بارگذاری شد"), fix_text(f"تسک‌ها از فایل {DATA_FILE} بارگذاری شدند."))
+        messagebox.showinfo("بارگذاری شد", fix_text(f"تسک‌ها از فایل {DATA_FILE} بارگذاری شدند."))
 
     def show_today(self):
         items = self.todo.list_by_date(today_str())
@@ -268,7 +268,7 @@ class App(ctk.CTk):
 
     def export_report(self, date_str, filename):
         export_report_for_date(filename, self.todo.list_tasks(), date_str)
-        messagebox.showinfo(fix_text("گزارش آماده شد"), fix_text(f"گزارش در فایل {filename} ذخیره شد."))
+        messagebox.showinfo("گزارش آماده شد", fix_text(f"گزارش در فایل {filename} ذخیره شد."))
 
     # --- Clock & notifications ---
     def tick_clock(self):
