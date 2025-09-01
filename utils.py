@@ -63,7 +63,6 @@ def fix_text(text: str) -> str:
 
 def set_global_font(family="Mikhak-FD", size=16):
     from customtkinter import CTkLabel, CTkButton, CTkEntry, CTkCheckBox, CTkOptionMenu, CTkComboBox, CTkSwitch, CTkFont
-    from customtkinter.windows.widgets.core_widget_classes.ctk_base_class import CTkBaseClass
 
     app_font = CTkFont(family=family, size=size)
 
