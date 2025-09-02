@@ -61,7 +61,7 @@ def fix_text(text: str) -> str:
     bidi_text = get_display(reshaped_text)
     return bidi_text
 
-def set_global_font(family="Mikhak-FD", size=16):
+def set_global_font(family="Mikhak-FD Regular", size=16):
     from customtkinter import CTkLabel, CTkButton, CTkEntry, CTkCheckBox, CTkOptionMenu, CTkComboBox, CTkSwitch, CTkFont
 
     app_font = CTkFont(family=family, size=size)
